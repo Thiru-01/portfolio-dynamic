@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "733389100645",
+    "firebase_url": "https://portfolio-310ae-default-rtdb.firebaseio.com",
+    "project_id": "portfolio-310ae",
+    "storage_bucket": "portfolio-310ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:733389100645:android:0a5a7de6c0390151c2188c",
+        "android_client_info": {
+          "package_name": "com.example.portfolio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "733389100645-8p434mnjqkfq56dqf3h62a6170uspphf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7XsP4SuT30e5mBk4FRJHLGUTmVjK2LLY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "733389100645-8p434mnjqkfq56dqf3h62a6170uspphf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
