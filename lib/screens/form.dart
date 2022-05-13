@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +15,7 @@ class FormUpdate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FilePickerResult? result;
-    late Image image;
+
     FirebasePortService service = FirebasePortService();
     final formKey = GlobalKey<FormState>();
     DataController dataController = Get.put(DataController());

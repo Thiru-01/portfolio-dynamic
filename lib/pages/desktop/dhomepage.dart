@@ -155,15 +155,6 @@ class DesktopScreen extends StatelessWidget {
                 SizedBox(
                   height: dHeight(context),
                 ),
-                SizedBox(
-                  height: dHeight(context),
-                ),
-                SizedBox(
-                  height: dHeight(context),
-                ),
-                SizedBox(
-                  height: dHeight(context),
-                ),
               ],
             ),
           ),
@@ -193,13 +184,14 @@ class DesktopScreen extends StatelessWidget {
           if (pos == 2) {
             controllers!.changeAni();
           }
-
-          controller.animateTo(dHeight(context) * pos,
-              duration: defaultDuration, curve: Curves.easeInCubic);
-          paController.getColor(int.parse(pos.toString()));
+          if (pos < 6) {
+            controller.animateTo(dHeight(context) * pos,
+                duration: defaultDuration, curve: Curves.easeInCubic);
+            paController.getColor(int.parse(pos.toString()));
+          }
         },
         child: Padding(
-          padding: EdgeInsets.all(dsize(context) * 0.01),
+          padding: const EdgeInsets.all(8.0),
           child: SizedBox(
               child: MouseRegion(
             cursor: SystemMouseCursors.click,

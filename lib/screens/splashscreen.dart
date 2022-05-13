@@ -14,8 +14,10 @@ class _SpalshScreenState extends State<SpalshScreen>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 5),
-        () => Get.off(() => DesktopScreen(), transition: Transition.downToUp));
+    Future.delayed(
+        const Duration(seconds: 5),
+        () => Get.off(() => const DesktopScreen(),
+            transition: Transition.downToUp));
     super.initState();
   }
 
