@@ -66,7 +66,14 @@ class FormUpdate extends StatelessWidget {
                           }
                         },
                         child: pageController.imageController.value
-                            ? Image.memory(result!.files[0].bytes!)
+                            ? SizedBox(
+                                height: dHeight(context) * 0.25,
+                                width: dWidth(context) * 0.13,
+                                child: Image.memory(
+                                  result!.files[0].bytes!,
+                                  fit: BoxFit.contain,
+                                ),
+                              )
                             : Container(
                                 decoration: BoxDecoration(
                                     color: darkColor,
@@ -98,35 +105,68 @@ class FormUpdate extends StatelessWidget {
                       hintText: "Description",
                       hintStyle: TextStyle(color: bodyTextColor)),
                 ),
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        FireModel data = dataController.convertTofiremodel();
-                        if (result!.count > 0) {
-                          service.uploadImage(data, result!);
-                        } else {}
-                      }
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: primaryColor,
-                              width: dsize(context) * 0.003)),
-                      width: dWidth(context) * 0.2,
-                      height: dHeight(context) * 0.06,
-                      child: Center(
-                          child: Text(
-                        "Upload".toUpperCase(),
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 3),
-                      )),
+                Row(
+                  children: [
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+                            FireModel data =
+                                dataController.convertTofiremodel();
+                            if (result!.count > 0) {
+                              showLoaderDialog(context);
+                              service.uploadImage(data, result!, context);
+                            } else {}
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: primaryColor,
+                                  width: dsize(context) * 0.003)),
+                          width: dWidth(context) * 0.2,
+                          height: dHeight(context) * 0.06,
+                          child: Center(
+                              child: Text(
+                            "Upload".toUpperCase(),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 3),
+                          )),
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      width: dWidth(context) * 0.08,
+                    ),
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          formKey.currentState!.reset();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: primaryColor,
+                                  width: dsize(context) * 0.003)),
+                          width: dWidth(context) * 0.2,
+                          height: dHeight(context) * 0.06,
+                          child: Center(
+                              child: Text(
+                            "Reset".toUpperCase(),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 3),
+                          )),
+                        ),
+                      ),
+                    )
+                  ],
                 )
               ],
             ),

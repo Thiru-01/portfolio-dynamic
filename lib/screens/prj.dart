@@ -22,6 +22,7 @@ class ProjectScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+
           return SizedBox(
             height: double.infinity,
             width: double.infinity,

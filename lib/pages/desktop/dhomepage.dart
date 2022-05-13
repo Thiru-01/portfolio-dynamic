@@ -10,6 +10,7 @@ import 'package:portfolio/screens/edu.dart';
 import 'package:portfolio/screens/home.dart';
 import 'package:portfolio/screens/prj.dart';
 import 'package:portfolio/screens/skills.dart';
+import 'dart:html' as html;
 
 class DesktopScreen extends StatelessWidget {
   const DesktopScreen({Key? key}) : super(key: key);
@@ -130,10 +131,6 @@ class DesktopScreen extends StatelessWidget {
               children: [
                 SizedBox(
                   height: dHeight(context),
-                  child: const ProjectScreen(),
-                ),
-                SizedBox(
-                  height: dHeight(context),
                   child: HomeScreen(
                       controller: _controller, pageControllers: pageController),
                 ),
@@ -151,6 +148,10 @@ class DesktopScreen extends StatelessWidget {
                     : const SizedBox()),
                 SizedBox(
                   height: dHeight(context),
+                ),
+                SizedBox(
+                  height: dHeight(context),
+                  child: const ProjectScreen(),
                 ),
                 SizedBox(
                   height: dHeight(context),
@@ -188,6 +189,18 @@ class DesktopScreen extends StatelessWidget {
             controller.animateTo(dHeight(context) * pos,
                 duration: defaultDuration, curve: Curves.easeInCubic);
             paController.getColor(int.parse(pos.toString()));
+          }
+          if (pos == 6) {
+            html.window
+                .open("https://www.instagram.com/mr_aegon_01/", "_blank");
+          }
+          if (pos == 7) {
+            html.window.open("https://github.com/Thiru-01", "_blank");
+          }
+          if (pos == 8) {
+            html.window.open(
+                "https://www.linkedin.com/in/thiru-candane-1067701b8/",
+                "_blank");
           }
         },
         child: Padding(

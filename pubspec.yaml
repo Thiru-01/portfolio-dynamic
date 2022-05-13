@@ -45,6 +45,7 @@ dependencies:
   cloud_firestore: ^3.1.13
   colored_json: ^1.1.0
   image_picker_web: ^2.1.1
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:

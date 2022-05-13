@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/constant.dart';
 import 'package:portfolio/controller/pagecontroller.dart';
+import 'package:portfolio/service/firebaseService.dart';
 
 class HomeScreen extends StatelessWidget {
   final ScrollController controller;
@@ -55,11 +56,7 @@ class HomeScreen extends StatelessWidget {
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
-                    onTap: () {
-                      controller.animateTo(dHeight(context) * 6,
-                          duration: defaultDuration, curve: Curves.easeInCubic);
-                      pageControllers.getColor(int.parse(6.toString()));
-                    },
+                    onTap: () {},
                     child: Container(
                       decoration: BoxDecoration(
                           border: Border.all(
@@ -88,23 +85,33 @@ class HomeScreen extends StatelessWidget {
             child: Center(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                child: ColoredJson(
-                  data: jsonData,
-                  backgroundColor: Colors.transparent,
-                  colonColor: primaryColor,
-                  commaColor: Colors.white,
-                  curlyBracketColor: Colors.white,
-                  squareBracketColor: Colors.white,
-                  keyColor: primaryColor,
-                  boolColor: bodyTextColor,
-                  textStyle: TextStyle(
-                      height: 1.6,
-                      fontFamily: GoogleFonts.sourceCodePro().fontFamily,
-                      fontSize: dsize(context) * 0.03,
-                      fontWeight: FontWeight.bold),
-                  indentLength: 10,
-                  stringColor: bodyTextColor,
-                ),
+                child: FutureBuilder<String>(
+                    future: getInfo(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: secondaryColor,
+                        ));
+                      }
+                      return ColoredJson(
+                        data: snapshot.data!,
+                        backgroundColor: Colors.transparent,
+                        colonColor: primaryColor,
+                        commaColor: Colors.white,
+                        curlyBracketColor: Colors.white,
+                        squareBracketColor: Colors.white,
+                        keyColor: primaryColor,
+                        boolColor: bodyTextColor,
+                        textStyle: TextStyle(
+                            height: 1.6,
+                            fontFamily: GoogleFonts.sourceCodePro().fontFamily,
+                            fontSize: dsize(context) * 0.03,
+                            fontWeight: FontWeight.bold),
+                        indentLength: 10,
+                        stringColor: bodyTextColor,
+                      );
+                    }),
               ),
             ))
       ],
