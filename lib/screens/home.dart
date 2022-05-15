@@ -1,8 +1,15 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:colored_json/colored_json.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/constant.dart';
+import 'package:portfolio/controller/mailcontroller.dart';
 import 'package:portfolio/controller/pagecontroller.dart';
+import 'package:portfolio/screens/form.dart';
 import 'package:portfolio/service/firebaseService.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,6 +21,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey formKey = GlobalKey<FormState>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -56,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () => showMailDialog(context, formKey),
                     child: Container(
                       decoration: BoxDecoration(
                           border: Border.all(
@@ -117,4 +125,129 @@ class HomeScreen extends StatelessWidget {
       ],
     );
   }
+}
+
+showMailDialog(BuildContext context, formKey) {
+  MainController controller = Get.put(MainController());
+  AlertDialog alert = AlertDialog(
+    backgroundColor: bgColor,
+    buttonPadding: const EdgeInsets.all(12),
+    actions: [
+      TextButton(
+          onPressed: () async {
+            if (formKey.currentState!.validate()) {
+              formKey.currentState!.save();
+              showLoaderDialog(context, "Sending");
+              const serviceId = "service_q0817kj";
+              const tempId = "template_nuxw6jp";
+              const userId = "a8gOlMXe3yp8oPwME";
+              Uri url =
+                  Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
+              final res = await http.post(url,
+                  headers: {'Content-Type': 'application/json'},
+                  body: json.encode({
+                    'service_id': serviceId,
+                    'template_id': tempId,
+                    'user_id': userId,
+                    'template_params': {
+                      'from_name': controller.name.value,
+                      'message': controller.msg.value,
+                      'id': controller.email.value
+                    }
+                  }));
+              if (res.statusCode == 200) {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }
+            }
+          },
+          style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  side: const BorderSide(color: primaryColor, width: 1),
+                  borderRadius: BorderRadius.circular(3.0))),
+          child: const Text("Send"))
+    ],
+    content: SizedBox(
+        height: dHeight(context) * 0.4,
+        width: dWidth(context) * 0.4,
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              formField(
+                  context: context,
+                  rxvalue: controller.name,
+                  name: "Name",
+                  icon: FontAwesomeIcons.user),
+              formField(
+                  context: context,
+                  rxvalue: controller.email,
+                  name: "Email Id",
+                  icon: FontAwesomeIcons.envelope),
+              TextFormField(
+                style: const TextStyle(color: primaryColor),
+                onSaved: (value) {
+                  controller.msg.value = value!;
+                },
+                validator: (value) {
+                  if (value == null || value == "") {
+                    return "Message";
+                  }
+                  return null;
+                },
+                maxLines: 3,
+                decoration: const InputDecoration(
+                    hintText: "Message",
+                    hintStyle: TextStyle(color: bodyTextColor)),
+              ),
+            ],
+          ),
+        )),
+  );
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+Widget formField(
+    {required BuildContext context,
+    required RxString rxvalue,
+    required String name,
+    required IconData icon}) {
+  return TextFormField(
+    onSaved: (value) {
+      rxvalue.value = value!;
+    },
+    validator: (value) {
+      if (value!.isEmpty) {
+        return "Please Enter $name";
+      }
+      if (!RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+              .hasMatch(value) &&
+          value.isNotEmpty &&
+          name == "Email Id") {
+        return "Please enter valid $name";
+      }
+      return null;
+    },
+    decoration: InputDecoration(
+        prefixIcon: Icon(
+          icon,
+          color: secondaryColor,
+        ),
+        contentPadding: EdgeInsets.only(
+            top: dHeight(context) * 0.02,
+            left: dWidth(context) * 0.008,
+            right: dWidth(context) * 0.008),
+        hintText: name,
+        hintStyle: const TextStyle(color: bodyTextColor)),
+    style: const TextStyle(
+      color: primaryColor,
+    ),
+  );
 }

@@ -1,8 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/constant.dart';
+import 'package:portfolio/pages/desktop/dhomepage.dart';
 import 'package:portfolio/responsive/resbuilder.dart';
 import 'package:portfolio/screens/form.dart';
 
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
       home: const ResBuilder(),
       getPages: [
         GetPage(name: "/update", page: () => const FormUpdate()),
+        GetPage(name: "/DesktopScreen", page: () => const DesktopScreen()),
         GetPage(name: "/", page: () => const ResBuilder())
       ],
     );

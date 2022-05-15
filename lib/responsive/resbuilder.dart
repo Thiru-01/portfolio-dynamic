@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:portfolio/pages/desktop/dhomepage.dart';
 
 import 'package:portfolio/pages/mobile/mhomepage.dart';
+import 'package:portfolio/screens/splashscreen.dart';
 
 class ResBuilder extends StatelessWidget {
   const ResBuilder({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class ResBuilder extends StatelessWidget {
         if (constraints.maxWidth < 400) {
           return const MobileScreen();
         } else {
-          return const DesktopScreen();
+          return const SpalshScreen();
         }
       },
     );

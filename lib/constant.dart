@@ -6,36 +6,6 @@ const darkColor = Color(0xFF092638);
 const bodyTextColor = Color(0xFF2B808E);
 const bgColor = Color(0xFF171F34);
 const cardColor = Color(0xFF051723);
-showLoaderDialog(BuildContext context) {
-  AlertDialog alert = AlertDialog(
-    backgroundColor: bgColor,
-    content: SizedBox(
-        height: dHeight(context) * 0.3,
-        width: dWidth(context) * 0.2,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const CircularProgressIndicator(
-              color: secondaryColor,
-            ),
-            SizedBox(
-              height: dHeight(context) * 0.08,
-            ),
-            const Text(
-              "Uploading...",
-              style: TextStyle(color: primaryColor),
-            ),
-          ],
-        )),
-  );
-  showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
 
 Map<int, Color> color = const {
   50: Color.fromRGBO(128, 249, 203, .1),

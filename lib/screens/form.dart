@@ -116,7 +116,7 @@ class FormUpdate extends StatelessWidget {
                             FireModel data =
                                 dataController.convertTofiremodel();
                             if (result!.count > 0) {
-                              showLoaderDialog(context);
+                              showLoaderDialog(context, "Uploading");
                               service.uploadImage(data, result!, context);
                             } else {}
                           }
@@ -175,4 +175,35 @@ class FormUpdate extends StatelessWidget {
       ),
     );
   }
+}
+
+showLoaderDialog(BuildContext context, String name) {
+  AlertDialog alert = AlertDialog(
+    backgroundColor: bgColor,
+    content: SizedBox(
+        height: dHeight(context) * 0.3,
+        width: dWidth(context) * 0.2,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(
+              color: secondaryColor,
+            ),
+            SizedBox(
+              height: dHeight(context) * 0.08,
+            ),
+            Text(
+              name + "...",
+              style: const TextStyle(color: primaryColor),
+            ),
+          ],
+        )),
+  );
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

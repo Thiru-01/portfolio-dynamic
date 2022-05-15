@@ -15,7 +15,7 @@ class _SpalshScreenState extends State<SpalshScreen>
   @override
   void initState() {
     Future.delayed(
-        const Duration(seconds: 5),
+        const Duration(seconds: 3),
         () => Get.off(() => const DesktopScreen(),
             transition: Transition.downToUp));
     super.initState();

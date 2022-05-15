@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, avoid_web_libraries_in_flutter
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,6 +7,7 @@ import 'package:portfolio/constant.dart';
 import 'package:portfolio/controller/animationcontroller.dart';
 import 'package:portfolio/controller/pagecontroller.dart';
 import 'package:portfolio/screens/edu.dart';
+import 'package:portfolio/screens/exp.dart';
 import 'package:portfolio/screens/home.dart';
 import 'package:portfolio/screens/prj.dart';
 import 'package:portfolio/screens/skills.dart';
@@ -17,7 +18,7 @@ class DesktopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AnimationControllers animationControllers = AnimationControllers();
+    AnimationControllers animationControllers = Get.put(AnimationControllers());
     ScrollController _controller = ScrollController();
     PageControllers pageController = Get.put(PageControllers());
     return Scaffold(
@@ -68,6 +69,7 @@ class DesktopScreen extends StatelessWidget {
                         label: "Experience",
                         icon: FontAwesomeIcons.building,
                         paController: pageController,
+                        controllers: animationControllers,
                         controller: _controller,
                         pos: 3),
                     navIcon(
@@ -79,15 +81,6 @@ class DesktopScreen extends StatelessWidget {
                         controller: _controller,
                         paController: pageController,
                         pos: 4),
-                    navIcon(
-                        color: whichColor[
-                            pageController.position.value == 5 ? 0 : 1],
-                        context: context,
-                        label: "Bio",
-                        icon: FontAwesomeIcons.idBadge,
-                        controller: _controller,
-                        paController: pageController,
-                        pos: 5),
                     const Spacer(
                       flex: 3,
                     ),
@@ -145,16 +138,16 @@ class DesktopScreen extends StatelessWidget {
                         height: dHeight(context),
                         child: const SkillScreen(),
                       )
-                    : const SizedBox()),
+                    : SizedBox(
+                        height: dHeight(context),
+                      )),
                 SizedBox(
                   height: dHeight(context),
+                  child: const ExperienceScreen(),
                 ),
                 SizedBox(
                   height: dHeight(context),
                   child: const ProjectScreen(),
-                ),
-                SizedBox(
-                  height: dHeight(context),
                 ),
               ],
             ),
@@ -177,11 +170,17 @@ class DesktopScreen extends StatelessWidget {
     return Expanded(
       child: GestureDetector(
         onTap: () {
+          printInfo(
+              info:
+                  "Moving to the Position $pos and it's height value is ${pos * dHeight(context)}");
           if (check) {
             Future.delayed(const Duration(milliseconds: 400),
                 () => controllers!.startAnimation());
           }
-
+          if (pos == 3) {
+            Future.delayed(const Duration(milliseconds: 500),
+                () => controllers!.changeOpacity());
+          }
           if (pos == 2) {
             controllers!.changeAni();
           }
