@@ -88,40 +88,44 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         SizedBox(
-            height: dHeight(context),
-            width: (dWidth(context) - dWidth(context) * 0.05) / 2,
             child: Center(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: FutureBuilder<String>(
-                    future: getInfo(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                            child: CircularProgressIndicator(
-                          color: secondaryColor,
-                        ));
-                      }
-                      return ColoredJson(
-                        data: snapshot.data!,
-                        backgroundColor: Colors.transparent,
-                        colonColor: primaryColor,
-                        commaColor: Colors.white,
-                        curlyBracketColor: Colors.white,
-                        squareBracketColor: Colors.white,
-                        keyColor: primaryColor,
-                        boolColor: bodyTextColor,
-                        textStyle: TextStyle(
-                            height: 1.6,
-                            fontFamily: GoogleFonts.sourceCodePro().fontFamily,
-                            fontSize: dsize(context) * 0.03,
-                            fontWeight: FontWeight.bold),
-                        indentLength: 10,
-                        stringColor: bodyTextColor,
-                      );
-                    }),
-              ),
-            ))
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: FutureBuilder<String>(
+                future: getInfo(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: secondaryColor,
+                    ));
+                  }
+                  if (snapshot.data != "") {
+                    return ColoredJson(
+                      data: snapshot.data!,
+                      backgroundColor: Colors.transparent,
+                      colonColor: primaryColor,
+                      commaColor: Colors.white,
+                      curlyBracketColor: Colors.white,
+                      squareBracketColor: Colors.white,
+                      keyColor: primaryColor,
+                      boolColor: bodyTextColor,
+                      textStyle: TextStyle(
+                          height: 1.6,
+                          fontFamily: GoogleFonts.sourceCodePro().fontFamily,
+                          fontSize: dsize(context) * 0.03,
+                          fontWeight: FontWeight.bold),
+                      indentLength: 10,
+                      stringColor: bodyTextColor,
+                    );
+                  }
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: secondaryColor,
+                  ));
+                }),
+          ),
+        ))
       ],
     );
   }

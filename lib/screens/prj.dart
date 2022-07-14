@@ -13,7 +13,7 @@ class ProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FirebasePortService firebasePortService = FirebasePortService();
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream:
             FirebaseFirestore.instance.collection("projectHistory").snapshots(),
         builder: (context, data) {
@@ -21,25 +21,26 @@ class ProjectScreen extends StatelessWidget {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          }
-
-          return SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Wrap(
-                alignment: data.data!.docs.length <= 2
-                    ? WrapAlignment.start
-                    : WrapAlignment.spaceBetween,
-                runSpacing: dHeight(context) * 0.01,
-                children: [
-                  for (int i = 0; i < data.data!.docs.length; i++)
-                    cardContainer(context, firebasePortService, i, data)
-                ],
+          } else if (data.hasData) {
+            return SizedBox(
+              height: double.infinity,
+              width: double.infinity,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Wrap(
+                  alignment: data.data!.docs.length <= 2
+                      ? WrapAlignment.start
+                      : WrapAlignment.spaceBetween,
+                  runSpacing: dHeight(context) * 0.01,
+                  children: [
+                    for (int i = 0; i < data.data!.docs.length; i++)
+                      cardContainer(context, firebasePortService, i, data)
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+          }
+          return const SizedBox.shrink();
         });
   }
 

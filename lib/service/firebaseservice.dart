@@ -46,6 +46,7 @@ class FirebasePortService {
 Future<String> getInfo() async {
   String url = "https://portfolio-310ae-default-rtdb.firebaseio.com/.json";
   http.Response response = await http.get(Uri.parse(url));
+
   if (response.statusCode == 200) {
     return response.body;
   }

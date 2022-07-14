@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/constant.dart';
-import 'package:portfolio/pages/desktop/dhomepage.dart';
+import 'package:portfolio/firebase_options.dart';
 import 'package:portfolio/responsive/resbuilder.dart';
 import 'package:portfolio/screens/form.dart';
 
@@ -11,15 +11,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: "AIzaSyDBXtdGnexRJM567gkk8IZjdT7JG6EnbOM",
-          authDomain: "portfolio-310ae.firebaseapp.com",
-          databaseURL: "https://portfolio-310ae-default-rtdb.firebaseio.com",
-          projectId: "portfolio-310ae",
-          storageBucket: "portfolio-310ae.appspot.com",
-          messagingSenderId: "733389100645",
-          appId: "1:733389100645:web:5a57fc0dc491d64ac2188c",
-          measurementId: "G-EX612HFKWG"));
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(const MyApp());
 }
@@ -54,8 +47,6 @@ class MyApp extends StatelessWidget {
       home: const ResBuilder(),
       getPages: [
         GetPage(name: "/update", page: () => const FormUpdate()),
-        GetPage(name: "/DesktopScreen", page: () => const DesktopScreen()),
-        GetPage(name: "/", page: () => const ResBuilder())
       ],
     );
   }
